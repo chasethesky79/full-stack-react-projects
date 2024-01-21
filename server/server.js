@@ -1,6 +1,11 @@
 import config from './../config/config'
 import app from './express'
 import mongoose from 'mongoose'
+import template from './../template'
+
+app.get('/', (req, res) => {
+    res.status(200).send(template())
+  })
 
 app.listen(config.port, (err) => {
     if (err) {

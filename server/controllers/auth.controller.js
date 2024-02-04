@@ -6,15 +6,16 @@ import config from '../../config/config'
 const signin = async (req, res) => {
     try {
         const user = await User.findOne({ 'email': req.body.email })
+        console.log(`USER DETAILS ${JSON.stringify(user)}`)
         if (!user) {
             return req.status('401').json({ error: 'User not found' })
         }
-
         if (!user.authenticate(req.body.password)) {
             return req.status('401').send({ error: 'Email and password do not match'})
         }
-
-        const token = jwt.sign({ _id, user: _id }, config.jwtSecret)
+        const token = jwt.sign({
+            _id: user._id
+          }, config.jwtSecret)
         res.cookie('t', token, { expire: new Date() + 9999 })
         return res.json({
             token,

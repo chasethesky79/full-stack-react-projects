@@ -5,6 +5,7 @@ import compress from 'compression'
 import cors from 'cors'
 import helmet from 'helmet'
 import userRoutes from './routes/user.routes'
+import authRoutes from './routes/auth.routes'
 
 const app = express()
 
@@ -15,6 +16,7 @@ app.use(compress())
 app.use(helmet())
 app.use(cors())
 app.use('/',userRoutes)
+app.use('/', authRoutes)
 
 app.use((err, req, res, next) => {
     const errorMessage = `error : ${err?.name} : ${err?.message}`

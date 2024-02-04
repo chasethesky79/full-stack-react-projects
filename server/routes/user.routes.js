@@ -1,5 +1,6 @@
 import express from 'express'
 import { create, list, read, userByID, update, remove } from '../controllers/user.controller'
+import { requireSignin, hasAuthorization } from '../controllers/auth.controller'
 
 const router = express.Router()
 
@@ -8,8 +9,9 @@ router.route('/api/users')
     .post(create)
 
 router.param('userId', userByID)
-router.route('/api/users/:userId').get(read)
-router.route('/api/users/:userId').put(update)
-router.route('/api/users/:userId').delete(remove)
+router.route('/api/users/:userId')
+.get(requireSignin, read)
+.put(requireSignin, hasAuthorization, update)
+.delete(requireSignin, hasAuthorization, remove)
 
 export default router
